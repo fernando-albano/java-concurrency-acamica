@@ -1,2 +1,4 @@
-# concurrency
-Examples of best practices on java concurrency.
+# Java Concurrency
+
+Best practices on java concurrency.
+
