@@ -1,0 +1,33 @@
+group 'com.globant.course.concurrency'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    baseName = 'example-app'
+    version =  '0.1.0'
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter")
+    compile("org.springframework:spring-web")
+    compile("com.fasterxml.jackson.core:jackson-databind")
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
+    }
+}
+
