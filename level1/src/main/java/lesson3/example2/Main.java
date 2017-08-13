@@ -1,5 +1,8 @@
 package lesson3.example2;
 
+/**
+ * Example of thread safe/unsafe.
+ */
 public class Main {
 
 	public static void main(String[] args) {

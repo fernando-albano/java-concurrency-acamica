@@ -4,6 +4,9 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.Semaphore;
 
+/**
+ * Example of Producer/Consumer model using Semaphores.
+ */
 public class Main {
 
 	private static Semaphore producedSemaphore = new Semaphore(0);

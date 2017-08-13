@@ -6,6 +6,9 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
+/**
+ * Example of ReentrantLock usage.
+ */
 public class Main {
 
 	private static final int TASKS = 5;

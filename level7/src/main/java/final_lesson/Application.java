@@ -6,6 +6,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
+/**
+ * Example of parallel application.
+ */
 public class Application {
 
     private static final Logger logger = LoggerFactory.getLogger(Application.class);

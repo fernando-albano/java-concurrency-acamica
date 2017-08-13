@@ -4,6 +4,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Example of Executor interruption.
+ */
 public class Main {
 
 	private static final long WAITING_TIME = 5L;

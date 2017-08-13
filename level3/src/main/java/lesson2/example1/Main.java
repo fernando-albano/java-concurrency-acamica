@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
+/**
+ * Example of AtomicLong usage.
+ */
 public class Main {
 
 	private static final int TASKS = 10;

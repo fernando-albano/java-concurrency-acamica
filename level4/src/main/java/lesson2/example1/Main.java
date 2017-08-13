@@ -2,6 +2,9 @@ package lesson2.example1;
 
 import java.util.concurrent.*;
 
+/**
+ * Example of PriorityBlockingQueue usage.
+ */
 public class Main {
 
 	private static final int CONSUMERS = 5;

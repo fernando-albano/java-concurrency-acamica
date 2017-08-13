@@ -1,5 +1,8 @@
 package lesson1.example1;
 
+/**
+ * Example of Thread interruption.
+ */
 public class Main {
 
 	public static void main(String[] args) {

@@ -7,6 +7,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
+/**
+ * Example of CyclicBarrier usage.
+ */
 public class Main {
 
 	private static final int TASKS = 5;

@@ -1,5 +1,8 @@
 package lesson4.example1;
 
+/**
+ * Example of deadlock.
+ */
 public class Main {
 
 	// Ok

@@ -1,5 +1,8 @@
 package lesson2.example1;
 
+/**
+ * Example of ThreadLocal usage.
+ */
 public class Main {
 
 	public static void main(String[] args) {

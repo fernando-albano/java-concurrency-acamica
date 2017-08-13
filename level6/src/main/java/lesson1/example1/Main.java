@@ -4,6 +4,9 @@ import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ForkJoinPool;
 
+/**
+ * Example of Merge-Sort using ForkJoinPool.
+ */
 public class Main {
 
 	private static final int ELEMENTS = 10000;

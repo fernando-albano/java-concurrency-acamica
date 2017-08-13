@@ -1,5 +1,8 @@
 package lesson5.example1;
 
+/**
+ * Example of thread interruption using ThreadGroup.
+ */
 public class Main {
 
 	public static void main(String[] args) {

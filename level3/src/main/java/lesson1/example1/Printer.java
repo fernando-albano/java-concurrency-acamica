@@ -1,5 +1,8 @@
 package lesson1.example1;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 public class Printer {
 
 	private final Lock lock = new ReentrantLock(false);

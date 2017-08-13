@@ -1,5 +1,8 @@
 package lesson5.example2;
 
+/**
+ * Example of wait/notify methods usage.
+ */
 public class Main {
 
 	public static void main(String[] args) {

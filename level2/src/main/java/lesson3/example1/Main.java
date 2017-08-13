@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
+/**
+ * Example of Callable and Future usage.
+ */
 public class Main {
 
 	private static final long N = 5000L;

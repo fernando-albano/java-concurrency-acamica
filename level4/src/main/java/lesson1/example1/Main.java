@@ -7,6 +7,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
+/**
+ * SynchronizedMap vs ConcurrentHashMap.
+ */
 public class Main {
 
 	private static final int EMPLOYEES_TO_CHECK_PER_TASK = 100;

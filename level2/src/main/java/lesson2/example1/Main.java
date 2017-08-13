@@ -4,7 +4,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-class Main {
+/**
+ * Example of ScheduledThreadPoolExecutor usage.
+ */
+public class Main {
 	
 	private static long WAIT = 10L;
 	private static int TASKS = 5;
