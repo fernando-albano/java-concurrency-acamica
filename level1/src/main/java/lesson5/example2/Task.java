@@ -2,26 +2,18 @@ package lesson5.example2;
 
 public class Task implements Runnable {
 
-	private Object object;
+	private UnsafeCounter counter;
+	private int times;
 	
-	public Task(Object object) {
-		this.object = object;
+	public Task(UnsafeCounter counter, int times) {
+		this.counter = counter;
+		this.times = times;
 	}
 	
 	@Override
 	public void run() {
-		waitForMain();
-		System.out.println("Finished: " + Thread.currentThread().getName());
-	}
-	
-	private void waitForMain() {
-		synchronized (object) {
-			try {
-				System.out.println(Thread.currentThread().getName() + "waiting for main thread");
-				object.wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		for (int i=0; i<times; i++) {
+			counter.increment();
 		}
 	}
 }

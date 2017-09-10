@@ -2,15 +2,17 @@ package lesson3.example1;
 
 public class Task implements Runnable {
 
-	private LazyInit lazyInit;
+	private Factory factory;
 	
-	public Task(LazyInit lazyInit) {
-		this.lazyInit = lazyInit;
+	public Task(Factory factory) {
+		this.factory = factory;
 	}
 	
 	@Override
 	public void run() {
-		Object object = lazyInit.getInstance();
-		System.out.println("Got: " + object);
+		Object object = factory.getObject();
+		System.out.println(Thread.currentThread().getName() + " got " + object);
+		object = factory.getObject();
+		System.out.println(Thread.currentThread().getName() + " got " + object);
 	}
 }

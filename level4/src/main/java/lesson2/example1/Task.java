@@ -1,27 +1,32 @@
 package lesson2.example1;
 
-import java.util.concurrent.BlockingQueue;
+import java.util.Random;
+import java.util.concurrent.Callable;
 
-public class Task implements Runnable {
+public class Task implements Callable<Integer> {
 
-	private BlockingQueue<Message> queue;
+	private final static int MAX_EMPLOYEES = 200; 
+
+	private int toCheck;
+	private String department;
+	private EmployeesCacheSync cache;
 	
-	public Task(BlockingQueue<Message> queue) {
-		this.queue = queue;
+	public Task(int toCheck, String department, EmployeesCacheSync cache) {
+		this.toCheck = toCheck;
+		this.department = department;
+		this.cache = cache;
 	}
 	
 	@Override
-	public void run() {
-		try {
-			while (!Thread.interrupted()) {
-				Message message = queue.take();
-				System.out.println("Received " + message.getContent() + 
-					" with priority " + message.getPriorityName());
-				Thread.sleep(3);
+	public Integer call() {
+		Random random = new Random();
+		int count = 0;
+		for (int i=0; i<toCheck; i++) {
+			Employee employee = cache.getEmployee(random.nextInt(MAX_EMPLOYEES));
+			if (department.equals(employee.getDepartment())) {
+				count++;
 			}
-		} catch (InterruptedException e) {
-			System.out.println(Thread.currentThread().getName() + 
-				" consumer was interrupted.");
 		}
+		return count;
 	}
 }

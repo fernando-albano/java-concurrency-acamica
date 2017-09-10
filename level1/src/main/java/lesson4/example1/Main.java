@@ -1,21 +1,25 @@
 package lesson4.example1;
 
 /**
- * Example of deadlock.
+ * Example of volatile usage.
  */
 public class Main {
 
-	// Ok
-	public static void main(String[] args) {
-		Object resource1 = new Object(), resource2 = new Object();
-		new Thread(new Task(resource1, resource2)).start();
-		new Thread(new Task(resource1, resource2)).start();
-	}
+    private static volatile Boolean isFinished = false;
 
-	// Fails
-	/*public static void main(String[] args) {
-		Object resource1 = new Object(), resource2 = new Object();
-		new Thread(new Task(resource1, resource2)).start();
-		new Thread(new Task(resource2, resource1)).start();
-	}*/
+    public static void main(String[] args) {
+        new Thread(() -> {
+            while(!isFinished) {
+                try {
+                    Thread.sleep(1000L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            System.out.println("Task finished.");
+        }).start();
+
+        isFinished = true;
+        System.out.println("Main finished");
+    }
 }

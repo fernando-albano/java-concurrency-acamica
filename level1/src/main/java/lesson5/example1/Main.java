@@ -1,21 +1,18 @@
 package lesson5.example1;
 
 /**
- * Example of thread interruption using ThreadGroup.
+ * Example of thread safe/unsafe.
  */
 public class Main {
 
 	public static void main(String[] args) {
 
-		ThreadGroup group = new ThreadGroup("Task Group");
+		LazyInit lazyInit = new LazyInit();
+		Thread[] threads = new Thread[10];
 
-		for (int i=0; i<5; i++) {
-			Thread thread = new Thread(group, new Task(), "Thread " + i);
-			thread.start();
+		for (int i=0; i<threads.length; i++) {
+			threads[i] = new Thread(new Task(lazyInit));
+			threads[i].start();
 		}
-
-		group.interrupt();
-
-		System.out.println("Finished " + Thread.currentThread().getName());
 	}
 }

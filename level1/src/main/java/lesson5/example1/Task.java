@@ -2,13 +2,15 @@ package lesson5.example1;
 
 public class Task implements Runnable {
 
+	private LazyInit lazyInit;
+	
+	public Task(LazyInit lazyInit) {
+		this.lazyInit = lazyInit;
+	}
+	
 	@Override
 	public void run() {
-		try {
-			Thread.sleep(10000000); // wait 10000 seconds
-		} catch (InterruptedException e) {
-			System.out.println("Interrupted " + Thread.currentThread().getName());
-		}
-		System.out.println("Finished " + Thread.currentThread().getName());
+		Object object = lazyInit.getInstance();
+		System.out.println("Got: " + object);
 	}
 }

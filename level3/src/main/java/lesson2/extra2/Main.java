@@ -1,47 +1,41 @@
 package lesson2.extra2;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
- * Example of AtomicReferenceArray usage.
+ * Complex example using Read and Write Locks.
  */
 public class Main {
 
-    private static final int TASKS = 10;
-    private static final int ACCOUNTS = 10;
-    private static final long WAITING_TIME = 5;
-    private static final long INITIAL_BALANCE = 1000000L;
+    private static final int COUNTERS = 5;
+    private static final int OBJECTS = 50;
+    private static final long WAITING_TIME = 4;
 
     public static void main(String[] args) {
 
-        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(TASKS);
-        AccountSet accounts = new AccountSet(ACCOUNTS, INITIAL_BALANCE);
+        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(COUNTERS + 1);
+        SyncQueue<String> queue = new SyncQueue<>();
 
-        List<Future<Long>> results = new ArrayList<>(TASKS);
-        for (int i=0; i<TASKS; i++) {
-            results.add(executor.submit(new BankingTask(accounts)));
+        for (int i=1; i<=COUNTERS; i++) {
+            executor.execute(new Counter(queue));
         }
+        executor.execute(new Remover(queue));
 
-        Long taskMovements = 0L;
         try {
-            TimeUnit.SECONDS.sleep(WAITING_TIME);
-            executor.shutdownNow();
-
-            for (Future<Long> result : results) {
-                taskMovements += result.get();
+            for (int i=1; i<=OBJECTS; i++) {
+                queue.enqueue("Object " + i);
             }
-        } catch (InterruptedException | ExecutionException e) {
+
+            System.out.println("Waiting until the queue is empty..");
+            queue.awaitUntilEmpty(WAITING_TIME, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        long movements = 0L;
-        for (int i=0; i<ACCOUNTS; i++) {
-            Balance balance = accounts.getBalance(i);
-            movements += balance.getMovements();
-            System.out.println("Final balance for account " + i + " is " + balance.getBalance());
-        }
-        System.out.println("Total movements were " + movements + " and should be " + taskMovements);
+        System.out.println("Elements left in the queue " + queue.size() + ".");
+        System.out.println("Terminating executor..");
+        executor.shutdownNow();
     }
 }

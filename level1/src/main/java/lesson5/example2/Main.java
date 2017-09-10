@@ -1,26 +1,27 @@
 package lesson5.example2;
 
 /**
- * Example of wait/notify methods usage.
+ * Example of thread safe/unsafe.
  */
 public class Main {
 
 	public static void main(String[] args) {
 
-		Object object = new Object();		
-		new Thread(new Task(object)).start();
-		new Thread(new Task(object)).start();
-
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		UnsafeCounter counter = new UnsafeCounter();
+		Thread[] threads = new Thread[10];
+		for (int i=0; i<threads.length; i++) {
+			threads[i] = new Thread(new Task(counter, 10));
+			threads[i].start();
 		}
 		
-		synchronized (object) {
-			System.out.println(Thread.currentThread().getName() + " woke up from sleep, notifying the other threads..");
-			object.notifyAll();
+		for (Thread thread : threads) {
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
-		System.out.println("Finished: " + Thread.currentThread().getName());
-	}	
+		System.out.println("Invoked 10 threads with count 10, total count should be 100");
+		System.out.println("Total count was " + counter.getCount());
+	}
 }

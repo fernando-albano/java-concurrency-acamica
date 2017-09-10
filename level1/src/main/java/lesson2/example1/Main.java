@@ -1,18 +1,26 @@
 package lesson2.example1;
 
 /**
- * Example of ThreadLocal usage.
+ * Example of Thread interruption.
  */
 public class Main {
 
 	public static void main(String[] args) {
 
-		Factory factory = new Factory();
-		Thread[] threads = new Thread[4];
-		
+		Thread[] threads = new Thread[5];
 		for (int i=0; i<threads.length; i++) {
-			threads[i] = new Thread(new Task(factory));
+			threads[i] = new Thread(new Task(), "Thread " + i);
 			threads[i].start();
 		}
+		
+		for (Thread thread : threads) {
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		System.out.println(Thread.currentThread().getName());
 	}
 }

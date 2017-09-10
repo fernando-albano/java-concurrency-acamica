@@ -2,40 +2,34 @@ package lesson2.example1;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * Example of AtomicLong usage.
+ * Example of ReentrantLock usage.
  */
 public class Main {
 
-	private static final int TASKS = 10;
-	private static final long WAITING_TIME = 5;
-	private static final long INITIAL_BALANCE = 1000000L;
+	private static final int TASKS = 5;
 
 	public static void main(String[] args) {
-		
-		ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(TASKS);
-		Account account = new Account(INITIAL_BALANCE);
 
-		List<Future<Long>> results = new ArrayList<>(TASKS);
-		for (int i=1; i<=TASKS; i++) {
-			results.add(executor.submit(new BankingTask(account)));
+		ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(TASKS);
+		Printer printer = new Printer();
+		
+		List<Callable<Integer>> tasks = new ArrayList<>(TASKS);
+		for (int i=0; i<TASKS; i++) {
+			tasks.add(new Task(i, printer));
 		}
 
-		Long finalBalance = INITIAL_BALANCE;
 		try {
-			TimeUnit.SECONDS.sleep(WAITING_TIME);
-			executor.shutdownNow();
-
-			for (Future<Long> result : results) {
-				finalBalance += result.get();
-			}
-		} catch (InterruptedException | ExecutionException e) {
+			executor.invokeAll(tasks);
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Final balance was " + account.getBalance() + 
-			" and should be " + finalBalance);
+		executor.shutdown();
+		System.out.println("Printed " + printer.getCompletedJobs() + " jobs.");
 	}
 }

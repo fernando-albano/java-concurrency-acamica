@@ -2,40 +2,38 @@ package lesson2.extra1;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
+import java.util.Random;
+import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
- * Example of AtomicArray usage.
+ * Example of lock interruption.
  */
 public class Main {
 
-    private static final int TASKS = 10;
-    private static final long INITIAL_BALANCE = 1000000L;
+    private static final int TASKS = 5;
+    private static final long WAITING_TIME = 4;
 
     public static void main(String[] args) {
 
         ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(TASKS);
-        Account account = new Account(TASKS, INITIAL_BALANCE);
+        Printer printer = new Printer();
+        Random random = new Random();
 
-        List<Future<Long>> results = new ArrayList<>(TASKS);
-        for (int i=0; i<TASKS; i++) {
-            results.add(executor.submit(new BankingTask(i, account)));
+        List<Callable<Integer>> tasks = new ArrayList<>(TASKS);
+        for (int i=1; i<=TASKS; i++) {
+            tasks.add(new Task(i, (long) random.nextInt(5), printer));
         }
 
-        Long finalBalance = INITIAL_BALANCE;
         try {
-            for (Future<Long> result : results) {
-                finalBalance += result.get();
-            }
-        } catch (InterruptedException | ExecutionException e) {
+            executor.invokeAll(tasks, WAITING_TIME, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         executor.shutdownNow();
-        System.out.println("Total movements were " + account.getMovements());
-        System.out.println("Final balance was " + account.getBalance() + " and should be " + finalBalance);
+        System.out.println("Printed " + printer.getCompletedJobs() + " jobs.");
     }
 }
